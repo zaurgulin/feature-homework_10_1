@@ -1,13 +1,17 @@
+from mypy.types import names
+
 from src.masks import get_mask_card_number, get_mask_account
 
 
 def mask_account_card(nums: str) -> str | None:
     """Функция общей маскировки корты и счета"""
     if "Счет" in nums:
-        return get_mask_account(nums)
+        name = nums.split()[0]
+        account = nums.split()[1]
+        return name + ' ' + get_mask_account(account)
     else:
         cards = get_mask_card_number(nums[-16:])
-        new_card = nums. replace(nums[-16:], cards)
+        new_card = nums.replace(nums[-16:], cards)
         return new_card
 
 

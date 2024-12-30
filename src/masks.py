@@ -3,7 +3,7 @@ def get_mask_card_number(card_number: str) -> str | None:
     if card_number.isdigit() and len(card_number) == 16:
         return f"{card_number[:4]} {card_number[4:6]}{"*" * 2} {"*" * 4} {card_number[12:]}"
     else:
-        return None
+        raise TypeError
 
 
 def get_mask_account(ass_number: str) -> str | None:
@@ -11,7 +11,7 @@ def get_mask_account(ass_number: str) -> str | None:
     if ass_number.isdigit() and len(ass_number) == 20:
         return f"{"*" * 2}{ass_number[-4::]}"
     else:
-        return None
+        raise TypeError
 
 
 #print(get_mask_card_number("7000792289606361"))
