@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "pythonproject7"
+version = "0.1.0"
+description = ""
+authors = ["Zaur <zaur_zzz@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.1"
+mypy = "^1.11.2"
+black = "^24.10.0"
+isort = "^5.13.2"
+pytest-cov = "^6.0.0"
+
+
+[tool.poetry.group.lint.dependencies]
+isort = "^5.13.2"
+black = "^24.10.0"
+mypy = "^1.11.2"
+requests = "^2.32.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 119
+exclude = ".git"
+
+
+[tool.isort]
+line-length = 119
+
+
+[tool.mypy]
+disallow_untyped_defs = true
+warn_return_any = true
+exclude = "venv"
