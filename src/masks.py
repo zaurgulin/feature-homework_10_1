@@ -1,18 +1,30 @@
-def get_mask_card_number(card_number: str) -> str | None:
-    """Функция маскировки номера карты"""
-    if card_number.isdigit() and len(card_number) == 16:
-        return f"{card_number[:4]} {card_number[4:6]}{"*" * 2} {"*" * 4} {card_number[12:]}"
-    else:
-        raise TypeError
+import logging
+
+# filename изменить на свой путь к файлу с расширением .log
+logging.basicConfig(
+    filename="C:\PycharmProjects\pythonProject7\logs\masks.log",
+    filemode="w",
+    level=logging.DEBUG,
+    format="%(asctime)s %(module)s %(levelname)s: %(message)s",
+    datefmt="%m/%d/%Y %H:%M:%S",
+)
 
 
-def get_mask_account(ass_number: str) -> str | None:
-    """Функция маскировки номера счета"""
-    if ass_number.isdigit() and len(ass_number) == 20:
-        return f"{"*" * 2}{ass_number[-4::]}"
-    else:
-        raise TypeError
+def get_mask_card_number(number_card: str) -> str:
+    """Функция которая принимает на вход номер карты и возвращает ее маску."""
+    try:
+        # logging.debug("The work has been successfully done.")
+        return f"{number_card[:4]} {number_card[4:6]}** **** {number_card[12:]}"
+    except Exception as e:
+        # logging.error(f"Error in get_mask_card_number {e}")
+        raise
 
 
-#print(get_mask_card_number("7000792289606361"))
-#print(get_mask_account("73654108430135874305"))
+def get_mask_account(account_number: str) -> str:
+    """Функция которая принимает номер аккаунта и возвращает его маску."""
+    try:
+        # logging.debug("The work has been successfully done.")
+        return account_number[-4:]
+    except Exception as e:
+        # logging.error(f"Error in get_mask_account {e}")
+        raise
