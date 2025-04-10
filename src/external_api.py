@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from json import JSONDecodeError
 
 
-def convert_sum(file_path):
+def convert_sum(transaction) :
     """
     возвращает сумму транзакции в рублях
     обращается к внешнему API для получения текущего курса валют и конвертации суммы операции в рубли
@@ -17,7 +17,7 @@ def convert_sum(file_path):
     headers = {"api-key": api_key}
     amount_list = []
 
-    with open(file_path, "r", encoding="utf-8") as f:
+    with open(transaction, "r", encoding="utf-8") as f:
         try:
             operations = json.load(f)
             for transaction in operations:
@@ -32,7 +32,7 @@ def convert_sum(file_path):
                     amount_list.append(amount_from_transaction)
                 elif code_from_transaction in ["USD", "EUR"]:
 
-                    url = f"https://api.apilayer.com/currency_data/convert?base=USD&symbols=EUR,GBP,JPY&amount=5"
+                    url = f'https://api.apilayer.com/currency_data/convert?base=USD&symbols=EUR,GBP,JPY&amount=5'
                     params = {"from": code_from_transaction, "to": "RUB", "amount": amount_from_transaction}
                     response = requests.get(url, headers=headers, params=params)
                     if response.ok:
@@ -45,6 +45,6 @@ def convert_sum(file_path):
             return []
 
 
-if __name__ == "__main__":
-    data = convert_sum("C:\\\\PycharmProjects\\\\pythonProject7\\\\data\\\\operations.json")
-    print(data)
+#if __name__ == "__main__":
+#    data = convert_sum("C:\\\\PycharmProjects\\\\pythonProject7\\\\data\\\\operations.json")
+#    print(data)
