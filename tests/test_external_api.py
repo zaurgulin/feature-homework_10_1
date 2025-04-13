@@ -1,7 +1,7 @@
 import json
 from unittest.mock import mock_open, patch
 
-from src.external_api import convert_sum
+from src.external_api import convert_to_rub
 
 mock_conv_response = {"result": 7500}
 
@@ -26,11 +26,11 @@ mock_file = json.dumps(
 @patch("builtins.open", new_callable=mock_open, read_data=mock_file)
 @patch("os.getenv", return_value="test_api_key")
 @patch("requests.get")
-def test_convert_sum(mock_get, mock_open, mock_file):
+def convert_to_rub(mock_get, mock_open, mock_file):
     mock_get.return_value.ok = True
     mock_get.return_value.json.return_value = mock_conv_response
 
-    result = convert_sum("test_api_key")
+    result = convert_to_rub("test_api_key")
 
     expected = [7500.0, 1200.0]
 
