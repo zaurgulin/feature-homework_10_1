@@ -1,6 +1,7 @@
 from functools import wraps
 from typing import Callable, Any, Optional
 from time import time
+import logging
 
 
 def log(filename: Optional[str] = None) -> Callable:
@@ -9,21 +10,27 @@ def log(filename: Optional[str] = None) -> Callable:
     def decorator(func: Any) -> Any:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            func_name = func.__name__
+            logging.basicConfig(
+                filename=filename,
+                level=logging.INFO,
+                format="%(asctime)s - %(levelname)s - %(message)s",
+            )
+            logging.info(f"Функция '{func_name}' начата")
             try:
                 result = func(*args, **kwargs)
-                if filename is not None:
-                    with open(filename, "a", encoding="utf-8") as file:
-                        file.write(f"{func.__name__} ok\n")
-                else:
-                    print(f"{func.__name__} ok")
+                logging.info(f"Функция '{func_name}' окончена, результат: {result}")
                 return result
             except Exception as error:
-                if filename:
-                    with open(filename, "a", encoding="utf-8") as file:
-                        file.write(f"{func.__name__} error: {error.__class__.__name__}. Inputs: {args}, {kwargs}\n")
-                else:
-                    print(f"{func.__name__} error: {error.__class__.__name__}. Inputs: {args}, {kwargs}")
-
+                logging.basicConfig(
+                    filename=filename,
+                    level=logging.ERROR,
+                    format="%(asctime)s - %(levelname)s - %(message)s",
+                )
+                logging.error(
+                    f"Ошибка в функции '{func_name}' Ошибка: {type(error).__name__}. Вводные данные: {args}, {kwargs}"
+                )
+                raise
         return wrapper
 
     return decorator

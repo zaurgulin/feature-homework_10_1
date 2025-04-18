@@ -17,17 +17,17 @@ def convert_to_rub(transaction: dict) -> float:
 
     amount_from_transaction = transaction["operationAmount"]["amount"]
     code_from_transaction = transaction["operationAmount"]["currency"]["code"]
-        if amount_from_transaction == "0":
-            return float(0)
-        elif code_from_transaction != "RUB":
-            url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={code_from_transaction}&amount={amount_from_transaction}"
-            rub_amount = requests.request("GET", url=url, headers=headers)
+    if amount_from_transaction == "0":
+        return float(0)
+    elif code_from_transaction != "RUB":
+        url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={code_from_transaction}&amount={amount_from_transaction}"
+        rub_amount = requests.request("GET", url=url, headers=headers)
 
-            result = rub_amount.json()
+        result = rub_amount.json()
 
-            return float(result["result"])
-        else:
-            return float(amount_from_transaction)
+        return float(result["result"])
+    else:
+        return float(amount_from_transaction)
 
 
 #    with open(transaction, "r", encoding="utf-8") as f:
