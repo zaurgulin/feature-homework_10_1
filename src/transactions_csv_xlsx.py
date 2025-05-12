@@ -7,29 +7,24 @@ def transactions_csv(path_to_the_file: str) -> list:
     и возвращает список словарей с транзакциями"""
     try:
         with open(path_to_the_file, encoding="utf-8") as file:
-            pd.read_csv(file)
+            operations = pd.read_csv(file, delimiter=";")
+            return operations.to_dict(orient="records")
     except ValueError:
         return []
     except FileNotFoundError:
         return []
-    else:
-        with open(path_to_the_file, encoding="utf-8") as file:
-            operations = pd.read_csv(file, delimiter=";")
-            return operations.to_dict(orient="records")
 
 
 def transactions_xlsx(path_to_the_file: str) -> list:
     """Функция, для считывания финансовых операций из EXCEL принимает путь к файлу EXCEL в качестве аргумента
     и возвращает список словарей с транзакциями"""
     try:
-        pd.read_excel(path_to_the_file)
+        operations = pd.read_excel(path_to_the_file)
+        return operations.to_dict(orient="records")
     except ValueError:
         return []
     except FileNotFoundError:
         return []
-    else:
-        operations = pd.read_excel(path_to_the_file)
-        return operations.to_dict(orient="records")
 
 
 # print(transactions_csv('../data/transactions.csv'))
