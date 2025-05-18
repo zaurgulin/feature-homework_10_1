@@ -2,7 +2,7 @@ import pytest
 
 from src.masks import get_mask_card_number, get_mask_account
 
-def test_get_mask_card_number():
+def test_mask_card_number():
     assert get_mask_card_number("1596837868705199") == "1596 83** **** 5199"
 
 # Тесты на ошибочный ввод номеров карт
@@ -16,7 +16,7 @@ def test_get_mask_card_number():
 )
 
 def test_get_mask_card_number_error(input_card_error):
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         get_mask_card_number(input_card_error)
 #
 # # тесты на правильность маскировки номеров счетов
@@ -34,7 +34,7 @@ def test_get_mask_account(card_number, expected):
 
 
 def test_invalid_card_number():
-    with pytest.raises(TypeError) as exc_info:
+    with pytest.raises(ValueError) as exc_info:
         get_mask_card_number("7365410843013587430521a")
 
 

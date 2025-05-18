@@ -12,7 +12,7 @@ def filter_by_state(data: List[Dict[str, Any]], state: str = "EXECUTED"):
     """Функция фильтрации операций по ключу state"""
     new_data = []
     for operation in data:
-       if operation["state"] == state:
+       if operation.get("state") == state:
            new_data.append(operation)
     return new_data
 
