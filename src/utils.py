@@ -1,45 +1,38 @@
 import json
 import os
 import logging
-from typing import List, Union, Any
 
-# filename изменить на свой путь к файлу с расширением .log
+
+path_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs", "utils_log.log")
 logging.basicConfig(
-    filename="C:\PycharmProjects\pythonProject7\mylog.log",
-    filemode="w",
     level=logging.DEBUG,
-    format="%(asctime)s %(module)s %(levelname)s: %(message)s",
+    format="%(levelname)s: %(filename)s: %(funcName)s %(lineno)s: %(asctime)s - %(message)s",
+    filename=path_file,
+#    filename="../logs/utils_log.log",
+    filemode="w",
     datefmt="%m/%d/%Y %H:%M:%S",
-)
+    )
+get_info_transactions_json_logger = logging.getLogger()
 
 
-def get_info_transactions_json(file_path: str) -> List[Any]:
-    """
-    возвращает список словарей с данными о финансовых транзакциях или пустой список
-    :param file_path:
-    :return:
-    """
+def get_info_transactions_json(path_file: str) -> list[dict[str]]:
+    """Функция принимает путь до JSON-файла и возвращает список словарей с данными о финансовых
+    транзакциях или пустой список"""
 
-    data_empty_list: list = []
-
-    if not os.path.exists(file_path):
-        logging.warning(f"The file {file_path} does not exist!")
+    try:
+        with open(path_file, "r", encoding="utf-8") as transactions_file:
+            try:
+                transactions_data = json.load(transactions_file)
+            except json.JSONDecodeError:
+                print("File empty")
+                return []
+    except FileNotFoundError:
+        print("File not found")
         return []
-
-    with open(file_path, "r", encoding="utf-8") as f:
-        try:
-            operation = json.load(f)
-            if len(operation) == 0 or type(operation) != list:
-                logging.warning(f"The file {file_path} is empty!")
-                return data_empty_list
-            else:
-                logging.debug(f"The file {file_path} is valid!")
-                return operation
-        except json.decoder.JSONDecodeError as e:
-            logging.error(f"JSON encoding error: {e}")
-            return data_empty_list
+    return transactions_data
 
 
 if __name__ == "__main__":
-    data = get_info_transactions_json("C:\\\\PycharmProjects\\\\pythonProject7\\\\data\\\\operations.json")
-    print(data)
+    path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
+    transactions = get_info_transactions_json
+    print(transactions)
